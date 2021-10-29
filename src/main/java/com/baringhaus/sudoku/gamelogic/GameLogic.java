@@ -4,6 +4,7 @@ import com.baringhaus.sudoku.model.turn.Turn;
 import com.baringhaus.sudoku.model.board.Board;
 import com.baringhaus.sudoku.exceptions.IllegalMoveException;
 import com.sun.tools.javac.util.Pair;
+import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.*;
 
@@ -165,6 +166,8 @@ public class GameLogic {
     public Board getBoard() {
         return board;
     }
+
+    //TODO Implement board size
 
     public void newGame(int level, int size) {
         clear();

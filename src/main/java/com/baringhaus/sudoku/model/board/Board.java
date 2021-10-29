@@ -11,9 +11,6 @@ public class Board implements Serializable {
     private final Map<Integer, Map<Integer, Square>> squares;
     int size, numCols, numRows;
 
-    public Board() {
-        this(9);
-    }
     public Board(int size){
 
         this.size = size*size;
@@ -91,20 +88,6 @@ public class Board implements Serializable {
 
     public int getNumRows(){
         return numRows;
-    }
-
-    public int[][] boardToArray() {
-        int x = 0, y = 0;
-        int[][] arr = new int[getNumCols()][getNumRows()];
-        for(Map.Entry<Integer, Map<Integer, Square>> c:  getCols().entrySet()) {
-            for(Map.Entry<Integer, Square> r : c.getValue().entrySet()) {
-                arr[x][y] = r.getValue().getValue();
-                y++;
-            }
-            x++;
-            y = 0;
-        }
-        return arr;
     }
 
     public List<Pair<Integer, Integer>> emptySquares() {

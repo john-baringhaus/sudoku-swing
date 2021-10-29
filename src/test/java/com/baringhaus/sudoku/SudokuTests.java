@@ -85,28 +85,23 @@ public class SudokuTests {
     @Test
     public void newGameEasyTest() {
         gameLogic = new GameLogic(9);
-        int a = 0;
         gameLogic.newGame(1,9);
         assertEquals("Should be 32", 32, gameLogic.getBoard().emptySquares().size());
-        a = 2;
+
     }
 
     @Test
     public void newGameMediumTest() {
         gameLogic = new GameLogic(9);
-        int a = 0;
         gameLogic.newGame(2, 9);
         assertEquals("Should be 43", 43, gameLogic.getBoard().emptySquares().size());
-        a = 2;
     }
 
     @Test
     public void newGameHardTest() {
         gameLogic = new GameLogic(9);
-        int a = 0;
         gameLogic.newGame(3, 9);
         assertEquals("Should be 54", 54, gameLogic.getBoard().emptySquares().size());
-        a = 2;
     }
 
     @Test
