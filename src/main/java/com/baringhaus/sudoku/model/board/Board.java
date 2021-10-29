@@ -1,7 +1,7 @@
 package com.baringhaus.sudoku.model.board;
 
 import com.baringhaus.sudoku.exceptions.IllegalBoardException;
-import com.sun.tools.javac.util.Pair;
+import com.baringhaus.sudoku.model.Pair;
 
 import java.io.Serializable;
 import java.util.*;

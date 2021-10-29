@@ -3,7 +3,8 @@ package com.baringhaus.sudoku.gamelogic;
 import com.baringhaus.sudoku.model.turn.Turn;
 import com.baringhaus.sudoku.model.board.Board;
 import com.baringhaus.sudoku.exceptions.IllegalMoveException;
-import com.sun.tools.javac.util.Pair;
+import com.baringhaus.sudoku.model.Pair;
+
 
 import java.util.*;
 

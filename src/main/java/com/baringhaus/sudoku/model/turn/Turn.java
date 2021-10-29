@@ -1,6 +1,6 @@
 package com.baringhaus.sudoku.model.turn;
 
-import com.sun.tools.javac.util.Pair;
+import com.baringhaus.sudoku.model.Pair;
 
 public class Turn {
 
