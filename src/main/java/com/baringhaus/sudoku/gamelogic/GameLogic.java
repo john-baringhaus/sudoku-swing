@@ -4,7 +4,6 @@ import com.baringhaus.sudoku.model.turn.Turn;
 import com.baringhaus.sudoku.model.board.Board;
 import com.baringhaus.sudoku.exceptions.IllegalMoveException;
 import com.sun.tools.javac.util.Pair;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.*;
 
