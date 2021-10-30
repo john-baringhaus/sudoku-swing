@@ -19,7 +19,7 @@ public class SudokuBoardDisplay extends JComponent {
     private static final Font TEXT_FONT = new Font("Sansserif", Font.BOLD, 24);
     private static final int GAME_MARGIN = 20;
 
-    public static boolean check = false;
+    public static boolean check;
 
     GameLogic board;
 
@@ -35,6 +35,12 @@ public class SudokuBoardDisplay extends JComponent {
         board = b;
 
         _activeSquare.setLocation(-1, -1);
+    }
+
+    public void updateBoard(GameLogic b) {
+        this.board = b;
+        repaint();
+
     }
 
     @Override

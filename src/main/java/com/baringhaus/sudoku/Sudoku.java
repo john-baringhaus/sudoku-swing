@@ -6,6 +6,11 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.prefs.Preferences;
 import javax.swing.*;
 
@@ -14,15 +19,14 @@ import com.baringhaus.sudoku.gui.SudokuBoardDisplay;
 
 public class Sudoku extends JFrame {
 
-    GameLogic board;
+    private final GameLogic board;
     private final Preferences prefs = Preferences.userNodeForPackage(com.baringhaus.sudoku.Sudoku.class);
 
     public Sudoku() {
 
         board = new GameLogic(9);
 
-        SudokuBoardDisplay _sudokuBoard = new SudokuBoardDisplay(board);
-
+        SudokuBoardDisplay sudokuBoardDisplay = new SudokuBoardDisplay(board);
 
         MenuBar mb = new MenuBar();
         mb.add(createFileMenu());
@@ -40,7 +44,7 @@ public class Sudoku extends JFrame {
 
         content.add(mb, BorderLayout.NORTH);
         content.add(sep);
-        content.add(_sudokuBoard, BorderLayout.CENTER);
+        content.add(sudokuBoardDisplay, BorderLayout.CENTER);
 
 
         setContentPane(content);
@@ -66,35 +70,77 @@ public class Sudoku extends JFrame {
 
     private JMenu createFileMenu() {
 
-        //Create menu
+        ////////////////////////////
+        /////////Sudoku Menu////////
+        ////////////////////////////
         JMenu fileMenu = new JMenu("Sudoku");
-        fileMenu.setFont(new Font("SanSerif", Font.BOLD, 16));
+        fileMenu.setFont(new Font("SanSerif", Font.BOLD, 14));
         fileMenu.setOpaque(true);
         fileMenu.setBorder(BorderFactory.createCompoundBorder(null, BorderFactory.createEmptyBorder(3, 4, 3, 4)));
 
-        JMenuItem i1 = new JMenuItem("New Game");
-        i1.addActionListener((event) -> {
+        ////////////////////////////
+        //////////New Game//////////
+        ////////////////////////////
+        JMenuItem newGameMenuOption = new JMenuItem("New Game");
+        newGameMenuOption.addActionListener((event) -> {
             int level = (prefs.getInt("difficulty", 1));
             board.newGame(level, 9);
             repaint();
         });
+        newGameMenuOption.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        newGameMenuOption.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
 
-        i1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        i1.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+        ////////////////////////////
+        //////////Load Game/////////
+        ////////////////////////////
+        JMenuItem loadGameMenuOption = new JMenuItem("Load Game");
+        loadGameMenuOption.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        loadGameMenuOption.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+        loadGameMenuOption.addActionListener( e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                List<String> input = new ArrayList<>();
+                try {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    Scanner myReader = new Scanner(selectedFile);
+                    while (myReader.hasNextLine()) {
+                        String data = myReader.nextLine();
+                        input.add(data);
+                        System.out.println(data);
+                    }
+                    myReader.close();
+                    board.loadFile(input);
+                    repaint();
 
-        JMenuItem i2 = new JMenuItem("Load Last");
-        i2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        i2.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+                } catch (FileNotFoundException ex) {
+                    System.out.println("An error occurred.");
+                    ex.printStackTrace();
+                }
+            }
+        });
 
-        JMenuItem i3 = new JMenuItem("Quit");
-        i3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        i3.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
-        i3.addActionListener(ev -> System.exit(0));
+        ////////////////////////////
+        //////////Save Game/////////
+        ////////////////////////////
+        JMenuItem saveGameMenuOption = new JMenuItem("Save Game");
+        saveGameMenuOption.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        saveGameMenuOption.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
 
-        fileMenu.add(i1);
-        fileMenu.add(i2);
+        ////////////////////////////
+        //////////Quit Game/////////
+        ////////////////////////////
+        JMenuItem quitMenuOption = new JMenuItem("Quit");
+        quitMenuOption.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        quitMenuOption.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+        quitMenuOption.addActionListener(ev -> System.exit(0));
+
+        fileMenu.add(newGameMenuOption);
+        fileMenu.add(loadGameMenuOption);
+        fileMenu.add(saveGameMenuOption);
         fileMenu.addSeparator();
-        fileMenu.add(i3);
+        fileMenu.add(quitMenuOption);
 
         return fileMenu;
     }
@@ -204,16 +250,16 @@ public class Sudoku extends JFrame {
         ///////////Check////////////
         ////////////////////////////
 
-        ButtonGroup checkGroup = new ButtonGroup();
+
         JMenuItem check = new JCheckBoxMenuItem("Check");
         check.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 3));
         check.setSelected(SudokuBoardDisplay.check);
         check.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        check.addActionListener(e -> {
+        check.addItemListener(e -> {
             SudokuBoardDisplay.check = !SudokuBoardDisplay.check;
+            ((JCheckBoxMenuItem)e.getItem()).setSelected(SudokuBoardDisplay.check);
             repaint();
         });
-        checkGroup.add(check);
 
         ////////////////////////////
         ////////Menu Header/////////
@@ -251,10 +297,9 @@ public class Sudoku extends JFrame {
         menu.addSeparator();
         menu.add(difficulty);
 //        menu.add(size);
-        menu.addSeparator();
+//        menu.addSeparator();
         menu.add(hint);
         menu.add(check);
-
         return menu;
     }
 

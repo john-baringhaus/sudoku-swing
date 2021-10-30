@@ -24,6 +24,31 @@ public class GameLogic {
         this.board = new Board(b);
     }
 
+    public void loadFile(List<String> board) {
+        this.board = new Board(board.size());
+        int x =0;
+        for(String line: board) {
+            int y = 0;
+            for(char c : line.toCharArray()) {
+                this.board.setValue(x,y, c - '0');
+                y++;
+            }
+            x++;
+        }
+
+        sudoku();
+
+        x =0;
+        for(String line: board) {
+            int y = 0;
+            for(char c : line.toCharArray()) {
+                this.board.setValue(x,y, (c-'0'==0 ? 0 :this.board.getValue(x,y)));
+                y++;
+            }
+            x++;
+        }
+    }
+
     public boolean isLegalUserMove(int col, int row, int val) throws IllegalMoveException {
 
         //Check to make sure col and row are valid positions on the board
@@ -173,7 +198,6 @@ public class GameLogic {
         clear();
 
         board = new Board(9);
-
 
         copySubgridToGrid(0, 0, makeSubgrid());
         copySubgridToGrid(1, 1, makeSubgrid());
