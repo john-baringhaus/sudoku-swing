@@ -8,11 +8,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.prefs.Preferences;
 import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.baringhaus.sudoku.gamelogic.GameLogic;
 import com.baringhaus.sudoku.gui.SudokuBoardDisplay;
@@ -99,6 +104,8 @@ public class Sudoku extends JFrame {
         loadGameMenuOption.addActionListener( e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            FileFilter sudokuFilter = new FileNameExtensionFilter("SUD", "SUD", "SUDOKU");
+            fileChooser.setFileFilter(sudokuFilter);
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 List<String> input = new ArrayList<>();
@@ -127,6 +134,32 @@ public class Sudoku extends JFrame {
         JMenuItem saveGameMenuOption = new JMenuItem("Save Game");
         saveGameMenuOption.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         saveGameMenuOption.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
+        saveGameMenuOption.addActionListener( e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            FileFilter sudokuFilter = new FileNameExtensionFilter("SUD", "SUD", "SUDOKU");
+            fileChooser.setFileFilter(sudokuFilter);
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+            int result = fileChooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    Writer fileWriter = new FileWriter(
+                            fileChooser.getSelectedFile().toString().endsWith(".sud") ?
+                            fileChooser.getSelectedFile().toString() :
+                            fileChooser.getSelectedFile().toString() +".sud",
+                            false);
+                    List<String> output = board.boardToFile();
+                    for(String line : output) {
+                        fileWriter.write(line+"\n");
+                    }
+
+                    fileWriter.close();
+
+                } catch (Exception ex) {
+                    System.out.println("An error occurred.");
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         ////////////////////////////
         //////////Quit Game/////////
