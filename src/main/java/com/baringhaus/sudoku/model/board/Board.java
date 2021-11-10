@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Board implements Serializable {
 
-    private final Map<Integer, Map<Integer, Square>> squares;
+    private final Square[][] squares;
     int size, numCols, numRows;
 
     public Board(int size){
@@ -17,26 +17,21 @@ public class Board implements Serializable {
         this.numCols = size;
         this.numRows = size;
 
-        squares = new HashMap<>();
-        for(int col = 0; col < size; col++) {
-            squares.put( col, new HashMap<>());
-            for(int row = 0; row < size; row++) {
-                squares.get(col).put(row, new Square());
-            }
-        }
+        squares = new Square[size][size];
+        clear();
+        int a =0;
     }
 
     public Board(Board b) {
         this.size = b.getSize();
         this.numCols = b.getNumCols();
         this.numRows = b.getNumRows();
-        this.squares = new HashMap<>();
-        for(Map.Entry<Integer, Map<Integer, Square>> c: b.getCols().entrySet()) {
-            Map<Integer, Square> temp = new HashMap<>();
-            for(Map.Entry<Integer, Square> r: c.getValue().entrySet()) {
-                temp.put(r.getKey(), new Square(r.getValue()));
+        this.squares = new Square[b.getNumCols()][b.getNumRows()];
+        for(int x = 0; x < squares.length; x++) {
+            for(int y = 0; y < squares.length; y++) {
+
+                squares[x][y] = new Square(b.getValue(x,y));
             }
-            this.squares.put(c.getKey(), temp);
         }
     }
 
@@ -46,40 +41,37 @@ public class Board implements Serializable {
             if(l.length() != lines.length)
                 throw new IllegalBoardException("Board width does not match height");
         }
-        squares = new HashMap<>();
+        squares = new Square[lines.length][lines.length];
         for(int x = 0; x < lines.length; x++) {
-            squares.put(x, new HashMap<>());
             for(int y = 0; y < lines[x].length(); y++) {
                 int value = ( lines[x].charAt(y) >=1 && lines[x].charAt(y) <= 9 ? lines[x].charAt(y): 0);
-
-                squares.get(x).put(y, new Square(value) );
+                squares[x][y].setValue(value);
             }
         }
     }
 
     public int getSize() {
-        int sqCount = 0;
-
-        for(Map.Entry<Integer, Map<Integer, Square>> e : squares.entrySet()) {
-            sqCount += e.getValue().size();
-        }
-        return sqCount;
+        return squares.length * squares[0].length;
     }
 
     public int getValue(int col, int row) {
-        return squares.get(col).get(row).getValue();
+        return squares[col][row].getValue();
     }
 
     public void setValue(int col, int row, int value){
-        squares.get(col).get(row).setValue(value);
+        squares[col][row].setValue(value);
     }
 
-    public Map<Integer, Map<Integer, Square>> getCols() {
+    public Square[][] getCols() {
         return squares;
     }
 
     public void clear() {
-        squares.clear();
+        for(int x = 0; x < squares.length; x++) {
+            for(int y = 0; y < squares[0].length; y++) {
+                squares[x][y] = new Square();
+            }
+        }
     }
 
     public int getNumCols() {

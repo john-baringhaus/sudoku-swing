@@ -31,8 +31,8 @@ public class SudokuTests {
     public void boardConstructorWorksCorrectlyTest() {
         Board b = new Board(9);
         int count = 0;
-        for (Map.Entry<Integer, Map<Integer, Square>> c : b.getCols().entrySet()) {
-            count += c.getValue().size();
+        for (Square[] col : b.getCols()) {
+            count += col.length;
         }
 
         assertEquals("Board is not 9x9", 81, count);
@@ -43,7 +43,7 @@ public class SudokuTests {
 
         assertEquals("Bad first unassigned", new Pair<>(0, 0), gameLogic.unassigned());
         try {
-            for (int x = 0; x < gameLogic.getBoard().getCols().size(); x++) {
+            for (int x = 0; x < gameLogic.getBoard().getCols().length; x++) {
                 gameLogic.takeTurn(x, 0, 2);
             }
         } catch (Exception ignored) {

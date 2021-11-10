@@ -145,7 +145,9 @@ public class GameLogic {
     public boolean gameComplete() {
         int count = 0;
         for (int x = 0; x < board.getNumCols(); x++) {
-            count += board.getCols().get(x).values().stream().filter(it -> it.getValue() != 0).distinct().count();
+            for(int y = 0; y < board.getNumRows(); y++) {
+                count += (board.getValue(x,y)==0?0:1);
+            }
         }
         return count == board.getNumCols() * board.getNumRows();
     }
