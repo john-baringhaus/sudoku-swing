@@ -264,8 +264,7 @@ public class GameLogic {
         try {
             takeTurn(s.fst, s.snd, solution.getValue(s.fst, s.snd));
         }
-        catch (IllegalMoveException m){
-            System.out.println("Hint failed?");
+        catch (IllegalMoveException ignored){
         }
     }
 

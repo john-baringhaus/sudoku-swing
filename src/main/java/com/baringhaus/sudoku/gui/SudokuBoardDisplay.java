@@ -95,7 +95,7 @@ public class SudokuBoardDisplay extends JComponent {
                             g.setColor(new Color(138, 87, 64));
                         }
                     } else {
-                        if(_activeSquare.fst != -1 && board.getValue(i,j) == board.getValue(_activeSquare.fst, _activeSquare.snd)) {
+                        if (_activeSquare.fst != -1 && board.getValue(i, j) == board.getValue(_activeSquare.fst, _activeSquare.snd)) {
                             g.setColor(new Color(117, 152, 159, 128));
                             g.fillRect(i * CELL_PIXELS + GAME_MARGIN, j * CELL_PIXELS + GAME_MARGIN, CELL_PIXELS, CELL_PIXELS);
                         }
@@ -119,20 +119,19 @@ public class SudokuBoardDisplay extends JComponent {
         @Override
         public void mousePressed(MouseEvent e) {
             requestFocusInWindow();
-            System.out.printf("Mouse clicked at X:%d Y:%d\n", e.getX(), e.getY());
 
             if (e.getX() >= GAME_MARGIN && e.getX() <= PUZZLE_SIZE * CELL_PIXELS + GAME_MARGIN && e.getY() >= GAME_MARGIN
                     && e.getY() <= PUZZLE_SIZE * CELL_PIXELS + GAME_MARGIN) {
-                System.out.printf("Square X:%d Y:%d\n", (e.getX() - GAME_MARGIN) / CELL_PIXELS, (e.getY() - GAME_MARGIN) / CELL_PIXELS);
+
                 if ((int) _activeSquare.fst == (e.getX() - GAME_MARGIN) / CELL_PIXELS && (int) _activeSquare.snd == (e.getY() - GAME_MARGIN) / CELL_PIXELS) {
                     _activeSquare = Pair.of(-1, -1);
                 } else {
                     _activeSquare = Pair.of((e.getX() - GAME_MARGIN) / CELL_PIXELS, (e.getY() - GAME_MARGIN) / CELL_PIXELS);
                 }
-            } else
+            } else {
                 _activeSquare = Pair.of(-1, -1);
-//          }
-            System.out.println("Active square set");
+            }
+
             repaint();
         }
 

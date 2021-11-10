@@ -115,14 +115,12 @@ public class Sudoku extends JFrame {
                     while (myReader.hasNextLine()) {
                         String data = myReader.nextLine();
                         input.add(data);
-                        System.out.println(data);
                     }
                     myReader.close();
                     board.loadFile(input);
                     repaint();
 
                 } catch (FileNotFoundException ex) {
-                    System.out.println("An error occurred.");
                     ex.printStackTrace();
                 }
             }
@@ -155,7 +153,6 @@ public class Sudoku extends JFrame {
                     fileWriter.close();
 
                 } catch (Exception ex) {
-                    System.out.println("An error occurred.");
                     ex.printStackTrace();
                 }
             }
