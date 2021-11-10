@@ -1,6 +1,5 @@
 package com.baringhaus.sudoku.gamelogic;
 
-import com.baringhaus.sudoku.model.board.Square;
 import com.baringhaus.sudoku.model.turn.Turn;
 import com.baringhaus.sudoku.model.board.Board;
 import com.baringhaus.sudoku.exceptions.IllegalMoveException;
@@ -141,12 +140,14 @@ public class GameLogic {
 
     public boolean gameComplete() {
         int count = 0;
+        int total = 0;
         for (int x = 0; x < board.getNumCols(); x++) {
             for(int y = 0; y < board.getNumRows(); y++) {
                 count += (board.getValue(x,y)==0?0:1);
+                total += board.getValue(x,y);
             }
         }
-        return count == board.getNumCols() * board.getNumRows();
+        return count == board.getNumCols() * board.getNumRows() && total == 405;
     }
 
     public int[][] makeSubgrid() {
