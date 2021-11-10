@@ -1,5 +1,6 @@
 package com.baringhaus.sudoku.gamelogic;
 
+import com.baringhaus.sudoku.model.board.Square;
 import com.baringhaus.sudoku.model.turn.Turn;
 import com.baringhaus.sudoku.model.board.Board;
 import com.baringhaus.sudoku.exceptions.IllegalMoveException;
@@ -293,5 +294,17 @@ public class GameLogic {
 
     public int turnsSize() {
         return turns.size();
+    }
+
+    public List<String> boardToFile() {
+        List<String> output = new ArrayList<>();
+        for(int x = 0; x < board.getNumCols(); x++) {
+            StringBuilder line = new StringBuilder();
+            for(int y = 0; y < board.getNumRows(); y++) {
+                line.append(board.getValue(x, y));
+            }
+            output.add(line.toString());
+        }
+        return output;
     }
 }
