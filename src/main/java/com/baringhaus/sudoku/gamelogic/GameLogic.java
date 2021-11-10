@@ -109,14 +109,8 @@ public class GameLogic {
     }
 
     public Pair<Integer, Integer> unassigned() {
-        for (int x = 0; x < board.getNumCols(); x++) {
-            for (int y = 0; y < board.getNumRows(); y++) {
-                if (board.getValue(x, y) == 0) {
-                    return new Pair<>(x, y);
-                }
-            }
-        }
-        return new Pair<>(-1, -1);
+        List<Pair<Integer, Integer>> empties = board.emptySquaresSorted();
+        return empties.size()>0? empties.get(0) : Pair.of(-1,-1);
     }
 
     public boolean sudoku() {
@@ -227,12 +221,14 @@ public class GameLogic {
 
     private int numberOfSolutions(Board b) {
 
-        if (b.emptySquares().isEmpty()) {
+        List<Pair<Integer, Integer>> empties = b.emptySquaresSorted();
+
+        if (empties.isEmpty()) {
             return 1;
         }
 
-        int col = b.emptySquares().get(0).fst;
-        int row = b.emptySquares().get(0).snd;
+        int col = empties.get(0).fst;
+        int row = empties.get(0).snd;
 
         int count = 0;
 
