@@ -1,4 +1,5 @@
 # Sudoku
+[Download](https://github.com/john-baringhaus/sudoku-swing/releases/download/v1.0.0/Sudoku-v1.0.jar)
 
 Sudoku is a puzzle in which players insert the numbers one to nine into a grid consisting of nine squares subdivided into a further nine smaller squares in such a way that every number appears once in each horizontal line, vertical line, and square.
 
