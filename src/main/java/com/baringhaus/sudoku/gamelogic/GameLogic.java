@@ -39,7 +39,7 @@ public class GameLogic {
 
         sudoku();
 
-        x =0;
+        x = 0;
         for(String line: board) {
             int y = 0;
             for(char c : line.toCharArray()) {
@@ -140,6 +140,8 @@ public class GameLogic {
 
 
     public void clear() {
+        turns.clear();
+        redo.clear();
         board.clear();
     }
 
