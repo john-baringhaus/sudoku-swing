@@ -4,12 +4,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.util.Objects;
 
-public class Triple<A, B, C extends Comparable<C>> implements Comparable<Triple<A,B,C>>{
+public class Triplet<A, B, C extends Comparable<C>> implements Comparable<Triplet<A,B,C>>{
     public final A fst;
     public final B snd;
     public final C thd;
 
-    public Triple(A var1, B var2, C var3) {
+    public Triplet(A var1, B var2, C var3) {
         this.fst = var1;
         this.snd = var2;
         this.thd = var3;
@@ -19,7 +19,7 @@ public class Triple<A, B, C extends Comparable<C>> implements Comparable<Triple<
         return "Triple[" + this.fst + "," + this.snd + "," + this.thd + "]";
     }
 
-    public boolean equals(Triple<A,B,C> var1) {
+    public boolean equals(Triplet<A,B,C> var1) {
         return var1 != null
                 && Objects.equals(this.fst, var1.fst)
                 && Objects.equals(this.snd, var1.snd)
@@ -34,12 +34,12 @@ public class Triple<A, B, C extends Comparable<C>> implements Comparable<Triple<
                 toHashCode();
     }
 
-    public static <A, B, C extends Comparable<C>> Triple<A, B, C> of(A var0, B var1, C var2) {
-        return new Triple<>(var0, var1, var2);
+    public static <A, B, C extends Comparable<C>> Triplet<A, B, C> of(A var0, B var1, C var2) {
+        return new Triplet<>(var0, var1, var2);
     }
 
     @Override
-    public int compareTo(Triple<A, B, C> o) {
+    public int compareTo(Triplet<A, B, C> o) {
         return this.thd.compareTo(o.thd);
     }
 }
