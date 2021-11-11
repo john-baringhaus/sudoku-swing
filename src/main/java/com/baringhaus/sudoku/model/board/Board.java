@@ -2,7 +2,7 @@ package com.baringhaus.sudoku.model.board;
 
 import com.baringhaus.sudoku.exceptions.IllegalBoardException;
 import com.baringhaus.sudoku.model.Pair;
-import com.baringhaus.sudoku.model.Triple;
+import com.baringhaus.sudoku.model.Triplet;
 
 import java.io.Serializable;
 import java.util.*;
@@ -84,16 +84,16 @@ public class Board implements Serializable {
     }
 
     public List<Pair<Integer, Integer>> emptySquaresSorted() {
-        List<Triple<Integer, Integer, Integer>> emptySquares = new ArrayList<>();
+        List<Triplet<Integer, Integer, Integer>> emptySquares = new ArrayList<>();
         for(int x = 0; x < getNumCols(); x++) {
             for(int y = 0; y < getNumRows(); y++) {
                 if(getValue(x,y) == 0)
-                    emptySquares.add(new Triple<>(x,y,getValue(x,y)));
+                    emptySquares.add(new Triplet<>(x,y,getValue(x,y)));
             }
         }
         Collections.sort(emptySquares);
         List<Pair<Integer, Integer>> pairs = new ArrayList<>();
-        for(Triple<Integer, Integer, Integer> t : emptySquares) {
+        for(Triplet<Integer, Integer, Integer> t : emptySquares) {
             pairs.add(Pair.of(t.fst, t.snd));
         }
         return pairs;
