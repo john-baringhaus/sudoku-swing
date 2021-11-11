@@ -9,8 +9,6 @@ import com.sun.tools.javac.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
-
 import static org.junit.Assert.*;
 
 public class SudokuTests {
@@ -34,7 +32,6 @@ public class SudokuTests {
         for (Square[] col : b.getCols()) {
             count += col.length;
         }
-
         assertEquals("Board is not 9x9", 81, count);
     }
 
