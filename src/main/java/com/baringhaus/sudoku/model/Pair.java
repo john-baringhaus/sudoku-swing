@@ -16,7 +16,7 @@ public class Pair<A, B> {
     }
 
     public boolean equals(Pair<A,B> var1) {
-        return var1 != null && Objects.equals(this.fst, var1.fst) && Objects.equals(this.snd, var1.snd);
+        return hashCode() == var1.hashCode();
     }
 
     public int hashCode() {
