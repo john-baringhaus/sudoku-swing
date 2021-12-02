@@ -326,8 +326,6 @@ public class Sudoku extends JFrame {
         menu.add(redo);
         menu.addSeparator();
         menu.add(difficulty);
-//        menu.add(size);
-//        menu.addSeparator();
         menu.add(hint);
         menu.add(check);
         return menu;
