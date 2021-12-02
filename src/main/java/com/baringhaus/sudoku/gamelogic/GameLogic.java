@@ -12,8 +12,10 @@ public class GameLogic {
 
     private Board board;
     private Board solution;
-    private final List<Turn> turns = new ArrayList<>();
-    private final List<Turn> redo = new ArrayList<>();
+    private final Stack<Turn> turns = new Stack<>();
+    private final Stack<Turn> redo = new Stack<>();
+//    private final List<Turn> turns = new ArrayList<>();
+//    private final List<Turn> redo = new ArrayList<>();
 
 
     public GameLogic(int size) {
@@ -271,19 +273,17 @@ public class GameLogic {
     public void undoMove() {
         if(turns.size()==0)
             return;
-        Turn t = turns.get(turns.size()-1);
+        Turn t = turns.pop();
         board.setValue(t.getX(), t.getY(), t.getOldValue());
-        redo.add(t);
-        turns.remove(turns.size()-1);
+        redo.push(t);
     }
 
     public void redoMove() {
         if(redo.size()==0)
             return;
-        Turn t = redo.get(redo.size()-1);
+        Turn t = redo.pop();
         board.setValue(t.getX(), t.getY(), t.getNewValue());
-        turns.add(t);
-        redo.remove(redo.size()-1);
+        turns.push(t);
     }
 
     public int redoSize(){
